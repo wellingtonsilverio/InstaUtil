@@ -91,7 +91,7 @@ class Instagram:
         self.browser.get("https://www.instagram.com/" + username)
         
         try:
-            followButton = self.delayBrowser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/button')
+            followButton = self.delayBrowser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button')
             if followButton.text == "Follow Back" or followButton.text == "Follow":
                 followButton.click()
         except:
