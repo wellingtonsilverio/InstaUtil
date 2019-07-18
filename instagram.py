@@ -9,91 +9,96 @@ class Instagram:
         pass
 
     def open(self):
-        self.browser = webdriver.Chrome("./chromedriver")
+        chrome_options = webdriver.ChromeOptions()
+        CHROMEDRIVER_PATH = "./chromedriver"
 
-    def getBrowser(self):
-        return self.browser
+        # chrome_options.binary_location = CHROMEDRIVER_PATH
+        # chrome_options.add_argument('--headless')
+        # chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--no-sandbox')
+
+        self.browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
 
     def close(self):
         self.browser.quit()
 
-    def delayBrowser(self):
+    def delay_browser(self):
         time.sleep(self.delay)
         return self.browser
     
     def login(self, username, password):
         self.browser.get("https://www.instagram.com/accounts/login/?source=auth_switcher")
 
-        inputUsername = self.delayBrowser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/article/div/div/div/form/div/div/label/input[@name="username"]')
-        inputUsername.send_keys(username)
+        input_username = self.delay_browser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/article/div/div/div/form/div/div/label/input[@name="username"]')
+        input_username.send_keys(username)
 
-        inputPassword = self.delayBrowser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/article/div/div/div/form/div/div/label/input[@name="password"]')
-        inputPassword.send_keys(password)
+        input_password = self.browser.find_element_by_xpath('//*[@id="react-root"]/section/main/div/article/div/div/div/form/div/div/label/input[@name="password"]')
+        input_password.send_keys(password)
 
-        buttonLogin = self.delayBrowser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/article/div/div[1]/div/form/div[4]/button/div')
-        buttonLogin.click()
-
-        input("Press Enter to continue...")
+        button_login = self.browser.find_element_by_xpath('//*[@id="react-root"]/section/main/div/article/div/div[1]/div/form/div[4]/button/div')
+        button_login.click()
     
-    def getPhotosIdByTag(self, tag):
-        photosLink = []
+    def get_photos_id_by_tag(self, tag):
+        photos_link = []
         self.browser.get("https://www.instagram.com/explore/tags/" + tag)
 
-        for r in range(0, 5):
-            self.delayBrowser().execute_script("window.scrollTo(0, 10000);")
-            images = self.delayBrowser().find_elements_by_xpath('//*[@id="react-root"]/section/main/article/div[2]/div/div[1]/div/a')
+        for i in range(0, 5):
+            self.delay_browser().execute_script("window.scrollTo(0, 10000);")
+            images = self.delay_browser().find_elements_by_xpath('//*[@id="react-root"]/section/main/article/div[2]/div/div[1]/div/a')
 
             for link in images:
-                photosLink.append(link.get_attribute("href"))
+                photos_link.append(link.get_attribute("href"))
 
-        return photosLink
+        return photos_link
     
-    def getPhotosIdByLocation(self, location):
-        self.delayBrowser().get("https://www.instagram.com/explore/tags/" + location)
+    def get_photos_id_by_location(self, location):
+        self.delay_browser().get("https://www.instagram.com/explore/tags/" + location)
     
-    def getPhotosIdByUser(self, username):
+    def get_photos_id_by_user(self, username):
         pass
     
-    def getFollowersByUser(self, username):
-        followersUsername = []
+    def get_followers_by_user(self, username):
+        followers_username = []
         
         try:
             self.browser.get("https://www.instagram.com/" + username)
 
-            followersButton = self.delayBrowser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a')
-            followersButton.click()
+            followers_button = self.delay_browser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a')
+            followers_button.click()
 
-            followers = self.delayBrowser().find_elements_by_xpath('/html/body/div[3]/div/div[2]/ul/div/li/div/div/div/div[1]')
+            followers = self.delay_browser().find_elements_by_xpath('/html/body/div[3]/div/div[2]/ul/div/li/div/div/div/div[1]')
             
             for follower in followers:
-                followersUsername.append(follower.text)
+                followers_username.append(follower.text)
         except:
             print("Error get followers "+ username)
-            pass
+            
         
-        return followersUsername
+        return followers_username
     
-    def getFollowingsByUser(self, username):
+    def get_followings_by_user(self, username):
         pass
     
-    def likePhoto(self, linkPhoto):
-        self.delayBrowser().get(linkPhoto)
+    def like_photo(self, link_photo):
+        self.delay_browser().get(link_photo)
         
         try:
-            buttonLike = self.delayBrowser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/article/div[2]/section[1]/span[1]/button/span[@aria-label="Like"]')
-            buttonLike.click()
+            button_like = self.delay_browser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/article/div[2]/section[1]/span[1]/button/span[@aria-label="Like"]')
+            button_like.click()
         except:
-            print("Error like "+ linkPhoto)
-            pass
+            print("Error like "+ link_photo)
+            
 
     
-    def followUser(self, username):
+    def follow_user(self, username):
         self.browser.get("https://www.instagram.com/" + username)
         
         try:
-            followButton = self.delayBrowser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button')
-            if followButton.text == "Follow Back" or followButton.text == "Follow":
-                followButton.click()
+            follow_nutton = self.delay_browser().find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button')
+            if follow_nutton.text == "Follow Back" or follow_nutton.text == "Follow":
+                follow_nutton.click()
+                print("follow " + username)
         except:
             print("Error follow " + username)
-            pass
+            
