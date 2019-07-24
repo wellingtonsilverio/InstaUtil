@@ -101,4 +101,25 @@ class Instagram:
                 print("follow " + username)
         except:
             print("Error follow " + username)
+
+    def follow_followers(self, username):
+        try:
+            followrs = self.get_followers_by_user(username)
+            for follow in followrs:
+                followeds = self.get_followers_by_user(follow)
+                for followed in followeds:
+                    self.follow_user(followed)
+        except:
+            print("Erro em follow followers")
+
+
+    def like_photos_with_tag_list(self, tags):
+        try:
+            number_tags = len(tags)
+            for i in range(0, number_tags):
+                links = self.get_photos_id_by_tag(tags[i])
+                for link in links:
+                    self.like_photo(link)
+        except:
+            print("Erro em like photos with tag list")
             
