@@ -43,7 +43,7 @@ class Instagram:
         photos_link = []
         self.browser.get("https://www.instagram.com/explore/tags/" + tag)
 
-        for i in range(0, 5):
+        for i in range(0, 20):
             self.delay_browser().execute_script("window.scrollTo(0, 10000);")
             images = self.delay_browser().find_elements_by_xpath('//*[@id="react-root"]/section/main/article/div[2]/div/div[1]/div/a')
 
@@ -114,12 +114,16 @@ class Instagram:
 
 
     def like_photos_with_tag_list(self, tags):
+        all_links = []
         try:
             number_tags = len(tags)
             for i in range(0, number_tags):
+                print(i)
                 links = self.get_photos_id_by_tag(tags[i])
                 for link in links:
-                    self.like_photo(link)
+                    all_links.append(link)
+            for link in all_links:
+                self.like_photo(link)
         except:
             print("Erro em like photos with tag list")
             
