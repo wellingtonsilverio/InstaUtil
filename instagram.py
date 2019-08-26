@@ -24,8 +24,11 @@ class Instagram:
     def close(self):
         self.browser.quit()
 
-    def delay_browser(self):
+    def wait(self):
         time.sleep(self.delay)
+
+    def delay_browser(self):
+        self.wait()
         return self.browser
     
     def login(self, username, password):
