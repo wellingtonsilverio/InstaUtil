@@ -1,5 +1,6 @@
 from selenium import webdriver
 import time
+from random import randrange
 
 class Instagram:
     browser = None
@@ -118,8 +119,8 @@ class Instagram:
         try:
             number_tags = len(tags)
             for i in range(0, number_tags):
-                print(i)
-                links = self.get_photos_id_by_tag(tags[i])
+                random_tag = randrange(number_tags)
+                links = self.get_photos_id_by_tag(tags[random_tag])
                 for link in links:
                     all_links.append(link)
             for link in all_links:

@@ -11,16 +11,19 @@ try:
    instagram.login(USERNAME, PASSWORD)
 
    while True:
-      q = input("Press:\n1) Follow Followers\n2) Like photos by Tag list\n0) Quit\n")
-
-      if q == "1":
-         instagram.follow_followers(USERNAME)
-
-      elif q == "2":
-         instagram.like_photos_with_tag_list(["puppy", "pequines", "cachorro", "animal", "dog", "cute"])
+      instagram.follow_followers(USERNAME)
+      instagram.like_photos_with_tag_list(["puppy", "pequines", "cachorro", "animal", "dog", "cute"])
       
-      else:
-         break
+      # q = input("Press:\n1) Follow Followers\n2) Like photos by Tag list\n0) Quit\n")
+
+      # if q == "1":
+      #    instagram.follow_followers(USERNAME)
+
+      # elif q == "2":
+      #    instagram.like_photos_with_tag_list(["puppy", "pequines", "cachorro", "animal", "dog", "cute"])
+      
+      # else:
+      #    break
 except Exception as e:
    print("Aconteceu um erro: ")
    print(e)
